@@ -112,6 +112,10 @@ const getAllThreads = (socket) => {
   socket.emit("getAllThreads", "hello world");
 };
 
+app.use("/", (req, res) => {
+  res.status(200).send("<h1>If you can see this, then it works!</h1>");
+});
+
 httpServer.listen(3005, () => {
   console.log(`Server Running On Port 3005`);
 });
