@@ -29,8 +29,8 @@ mongoose
   });
 
 io.on("connection", (socket) => {
-  postRegister(socket);
-  postLogin(socket);
+  // postRegister(socket);
+  // postLogin(socket);
 
   getAllThreads(socket);
 
@@ -48,58 +48,65 @@ io.on("connection", (socket) => {
   });
 });
 
-const userModel = require("./models/user");
+// const userModel = require("./models/user");
+
+// BACKEND API
+
+const userRoutes = require("./routes/user");
+
+app.use("/user", userRoutes);
+
 
 // SOCKET API
 
-const postRegister = (socket) => {
-  socket.on("postRegister", cb => {
-    userModel
-      .findOne({ 
-        $or: [{ username: cb.username }, { email: cb.email }],
-      })
-      .then((user) => {
-        if (user) {
-          socket.emit("resRegister", { message: "Please use another username or email to register your new account." });
-        } else {
-          const user = new userModel({
-            username: cb.username,
-            password: cb.password,
-            // password: bcrypt.hashSync(cb.password, 8),
-            profile: cb.profile,
-            realname: cb.realname,
-            email: cb.email,
-          });
+// const postRegister = (socket) => {
+//   socket.on("postRegister", cb => {
+//     userModel
+//       .findOne({ 
+//         $or: [{ username: cb.username }, { email: cb.email }],
+//       })
+//       .then((user) => {
+//         if (user) {
+//           socket.emit("resRegister", { message: "Please use another username or email to register your new account." });
+//         } else {
+//           const user = new userModel({
+//             username: cb.username,
+//             password: cb.password,
+//             // password: bcrypt.hashSync(cb.password, 8),
+//             profile: cb.profile,
+//             realname: cb.realname,
+//             email: cb.email,
+//           });
           
-          user
-            .save()
-            .then((user) => {
-              socket.emit("resRegister", { message: "User Registered Successfully", data: user });
-            })
-            .catch((err) => {
-              socket.emit("resRegister", { message: err.message });
-            });
-        }
-      });
-  })
-};
+//           user
+//             .save()
+//             .then((user) => {
+//               socket.emit("resRegister", { message: "User Registered Successfully", data: user });
+//             })
+//             .catch((err) => {
+//               socket.emit("resRegister", { message: err.message });
+//             });
+//         }
+//       });
+//   })
+// };
 
-const postLogin = (socket) => {
-  socket.on("postLogin", cb => {
-    userModel
-      .findOne({ username: cb.username, password: cb.password })
-      .then((user) => {
-        if (user) {
-          socket.emit("resLogin", { message: "Login info matched.", data: user });
-        } else {
-          socket.emit("resLogin", { message: "Wrong username or password. Please check again!" });
-        }
-      })
-      .catch((err) => {
-        socket.emit("resLogin", { message: err.message });
-      });
-  })
-};
+// const postLogin = (socket) => {
+//   socket.on("postLogin", cb => {
+//     userModel
+//       .findOne({ username: cb.username, password: cb.password })
+//       .then((user) => {
+//         if (user) {
+//           socket.emit("resLogin", { message: "Login info matched.", data: user });
+//         } else {
+//           socket.emit("resLogin", { message: "Wrong username or password. Please check again!" });
+//         }
+//       })
+//       .catch((err) => {
+//         socket.emit("resLogin", { message: err.message });
+//       });
+//   })
+// };
 
 const getAllThreads = (socket) => {
   socket.emit("getAllThreads", "hello world");
