@@ -58,8 +58,12 @@ io.on("connection", (socket) => {
 // BACKEND API
 
 const userRoutes = require("./routes/user");
+const threadRoutes = require("./routes/thread");
+const commentRoutes = require("./routes/comment");
 
 app.use("/user", userRoutes);
+app.use("/thread", threadRoutes);
+app.use("/comment", commentRoutes);
 
 
 // SOCKET API
@@ -118,7 +122,7 @@ const getAllThreads = (socket) => {
 };
 
 app.get("/", (req, res) => {
-  res.status(200).send("<h1>If you can see this, then it works!</h1>");
+  res.status(200).send("<h1>If you can see this, then it works! 30/09/24</h1>");
 });
 
 httpServer.listen(3005, () => {
