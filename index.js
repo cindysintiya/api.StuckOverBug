@@ -117,7 +117,7 @@ const getAllThreads = (socket) => {
   socket.emit("getAllThreads", "hello world");
 };
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).send("<h1>If you can see this, then it works!</h1>");
 });
 

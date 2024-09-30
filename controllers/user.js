@@ -25,12 +25,12 @@ exports.register = (req, res) => {
         res.status(400).json({ message: "Please use another username or email to register your new account." });
       } else {
         const user = new userModel({
-          username: cb.username,
-          password: cb.password,
-          // password: bcrypt.hashSync(cb.password, 8),
-          profile: cb.profile,
-          realname: cb.realname,
-          email: cb.email,
+          username: req.body.username,
+          password: req.body.password,
+          // password: bcrypt.hashSync(req.body.password, 8),
+          profile: req.body.profile,
+          realname: req.body.realname,
+          email: req.body.email,
         });
         
         user
